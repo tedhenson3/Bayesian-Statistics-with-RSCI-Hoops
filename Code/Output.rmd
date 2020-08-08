@@ -14,9 +14,7 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE)
 ```
 
-# Motivation
-
-  This goal of this project is to apply Bayesian statistics in the rethinking package by Richard McElreath from his book Statistical Rethinking. There are many different techniques, packages, and software that use Bayesian statistics or techniques. This analysis will focus on Bayesian regression, quadratic approximation, causal inference, and more as I continue to develop and apply my understanding of Bayesian statistics.
+# Intro
   There are an infinite number of causes or variables that could potentially predict NBA success if one had access to the information: work ethic, receptiveness to coaching, wingspan, vertical leap, top speed, collegiate or international basketball success. Some of these variables such as collegiate success (measured by statistics) are available to the public. Some such as vertical leap may be available to a team after a workout or NBA combine. This analysis is not meant to create the best possible predictions for a prospect as that would require a lot of time and resources. The goal is to apply Bayesian techniques in a basketball setting and to see how much influence a player's high school recruiting ranking plays in NBA success.
 
 # Data
