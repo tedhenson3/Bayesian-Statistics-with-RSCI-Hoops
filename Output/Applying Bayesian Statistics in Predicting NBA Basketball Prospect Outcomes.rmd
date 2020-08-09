@@ -3,6 +3,8 @@ title: Applying Bayesian Statistics in Predicting NBA Basketball Prospect Outcom
   Using Aggregate Scouting Information
 author: "Ted Henson"
 date: "8/8/2020"
+header-includes:
+    - \usepackage{setspace}\doublespacing
 output:
   pdf_document: default
   html_document: default
@@ -20,14 +22,18 @@ knitr::opts_chunk$set(echo = TRUE,
 # Data
   The input data is aggregate scouting information from the Recruiting Services Consensus Index (RSCI). The data includes rankings from a variety of recruiting services for the top 100 high school prospects going back to 1998. Rivals is the only service that has been constant through the years. ESPN has been in the index since 2013, but their initial creator, Dave Telep, has been ranking prospects since 1998 so they are treated synonymous for this project. Other services that are still active include 247Sports and Hot100Hoops. All other services in the index no longer rank prospects. The variables used in the analysis include the composite ranking and the services still active. There little reason in running analysis on variables if they no longer exist. Also included in the the predictor matrix was a player's age and position.
   The response data is the advanced metrics table from basketball reference. This table includes statistics such as Value Over Replacement Player (VORP), Win Shares (WS), and many others. This analysis will attempt to first predict Win Shares Per 48 Minutes (WS/48) for a player's rookie season. Rookie seasons were chosen to simplify the analysis. WS/48 was chosen as opposed to VORP as VORP penalized rookies who played a lot of minutes on bad teams. In order to control for outliers who played very few minutes, only rookies who played over 100 minutes were considered. If a player did not play over 100 minutes they either were injured, were not given a chance, or were ineffective when they played. In practice one would not exclude them and either include them, regress their stats towards the mean or minimum, or something else, but for simplicity they are excluded here.
-\newpage
 ```{r}
 source('~/Bayesian Statistics with RSCI Hoops/Code/RSCI to NBA Merger.R')
 source('~/Bayesian Statistics with RSCI Hoops/Code/Bayesian Regression.R')
 
 ```
+# Analysis
+## Definition of Model and Priors
+```{r}
+fit
+```
 
-# Plots of Simulation of Priors
+## Plots of Simulation of Priors
 ```{r}
 par(mfrow=c(2,2))
 plot(prior.sims$a)
@@ -36,8 +42,18 @@ plot(prior.sims$b.Comp)
 plot(prior.sims$b.Guard)
 ```
 
+## Plots of Simulated Samples from Posterior
+```{r}
+plot(post.sims$b.Rivals, post.sims$b.espn)
+plot(post.sims$b.Comp, post.sims$b.Comp.2^2)
+```
+## Summary of Model Posterior
+```{r}
+summary(fit)
+```
 
-# Plot of Observed versus Expected WS/48 with Predictive Intervals
+
+## Plot of Observed versus Expected WS/48 with Predictive Intervals
 ```{r}
 plot(mu_mean ~ basketball$y,
      col = rangi2,
@@ -45,5 +61,8 @@ plot(mu_mean ~ basketball$y,
      xlab = 'Observed y',
      ylab = 'Predicted y')
 abline(a = 0, b = 1, lty = 2)
+for(i in 1:nrow(basketball)) lines(rep(basketball$y[i],2),
+                                       mu_PI[,i],
+                                       col=rangi2)
 ```
 

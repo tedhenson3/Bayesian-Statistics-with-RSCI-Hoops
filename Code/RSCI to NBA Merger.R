@@ -279,8 +279,13 @@ basketball = basketball %>% dplyr::filter(MP > 100)
 
 basketball$y = basketball$`WS/48` * 100
 
-basketball = basketball %>% dplyr::filter(!is.na(Rivals) & 
+
+
+basketball = basketball %>% dplyr::filter(!is.na(Rivals) &
                                             !is.na(ESPN))
+
+#                                             !is.na(`247Sports`) & 
+#                                             !is.na(VC))
 basketball$Is.C = ifelse(basketball$Pos %in% 
                            c('C', 'C-PF','PF-C'),
                              1, 0)
@@ -308,4 +313,9 @@ basketball$Is.Wing = ifelse(basketball$Pos %in%
 basketball = basketball %>%
   dplyr::group_by(Player) %>%
   dplyr::filter(row_number() == 1)
+
+
+#nrow(basketball)
+
+
 
