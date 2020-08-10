@@ -248,7 +248,7 @@ colnames(basketball)[which(colnames(basketball) == 'Player.y')] = 'Player'
 
 
 
-basketball$Age= basketball$Age - 19
+basketball$Age= basketball$Age - 18
 
 #get rid of duplicate rows
 
@@ -281,9 +281,7 @@ basketball$y = basketball$`WS/48` * 100
 
 
 
-basketball = basketball %>% dplyr::filter(!is.na(Rivals) &
-                                            !is.na(ESPN))
-
+basketball = basketball %>% dplyr::filter(!is.na(Composite.Rating))
 #                                             !is.na(`247Sports`) & 
 #                                             !is.na(VC))
 basketball$Is.C = ifelse(basketball$Pos %in% 
@@ -315,6 +313,7 @@ basketball = basketball %>%
   dplyr::filter(row_number() == 1)
 
 
+basketball$Composite.Rating = scale(basketball$Composite.Rating)
 #nrow(basketball)
 
 

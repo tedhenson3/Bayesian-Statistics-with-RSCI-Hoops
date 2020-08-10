@@ -4,32 +4,32 @@ flist <- alist(
   `y` ~ dnorm(mu, sigma),
   mu <- a+
   b.Comp*Composite.Rating+
-  b.Comp.2*Composite.Rating^2+
-  b.espn*ESPN+
+  #b.Comp.2*Composite.Rating^2+
+  #b.espn*ESPN+
   # b.vc*VC +
   # b.247*`247Sports`+
-  b.Rivals*Rivals +
-  b.C*Is.C + 
+  #b.Rivals*Rivals +
+  #b.C*Is.C + 
   b.Big*Is.Big+
   #b.Forward*Is.Forward+
-  b.Wing*Is.Wing+
+  #b.Wing*Is.Wing+
   b.Guard*Is.Guard+
   b.Age*Age,
   
   a ~ dnorm(4,1), 
-  b.Comp ~ dnorm(1, 1/2),
-  b.Comp.2 ~ dnorm(0,1),
-  b.Rivals ~ dnorm(1,1/2),
-  b.espn ~ dnorm(1,1/2),
+  b.Comp ~ dlnorm(0, .25),
+  #b.Comp.2 ~ dnorm(0,1),
+  #b.Rivals ~ dnorm(1,1/2),
+  #b.espn ~ dnorm(1,1/2),
   # b.vc ~ dnorm(1,1/2),
   # b.247 ~ dnorm(1,1/2),
   
-  b.C ~ dnorm(0, 1),
+  #b.C ~ dnorm(0, 1),
   b.Big ~ dnorm(0, 1),
   #b.Forward ~ dnorm(0, 1),
-  b.Wing ~ dnorm(0, 1),
+  #b.Wing ~ dnorm(0, 1),
   b.Guard ~ dnorm(0, 1),
-  b.Age ~ dnorm(1,1),
+  b.Age ~ dnorm(2,1),
   sigma ~ dexp(1)
 )
 
@@ -46,7 +46,7 @@ post.sims = extract.samples(fit)
 # plot(prior.sims$b.C)
 
 
-summary(fit)
+#summary(fit)
 
 mu = link(fit)
 
