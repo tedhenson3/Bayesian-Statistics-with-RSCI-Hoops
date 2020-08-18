@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE,
 ## Definition of Model and Priors
 ```{r}
 source('~/Bayesian Statistics with RSCI Hoops/Code/RSCI to NBA Merger.R')
-source('~/Bayesian Statistics with RSCI Hoops/Code/Bayesian Regression.R')
+source('~/Bayesian Statistics with RSCI Hoops/Code/Quadratic Approximation.R')
 fit
 ```
 
@@ -58,5 +58,19 @@ abline(a = 0, b = 1, lty = 2)
 for(i in 1:nrow(basketball)) lines(rep(basketball$y[i],2),
                                        mu_PI[,i],
                                        col=rangi2)
+```
+
+# Markov Chain Monte Carlo
+
+The same model definitions above were applied, but Markov Chain Monte Carlo methods were applied to estimate the posterior distrubtion for the parameters. Below beta[1] is the mean of the response, beta[2] for Big, beta[3] for Guard, beta[4] for composite rating, and beta[5] for age.
+```{r}
+load(file = "~/Bayesian Statistics with RSCI Hoops/Env/MCMC_env.RData")
+library(rstan)
+traceplot(resStan, pars = c("beta","sigma"), inc_warmup = TRUE)
+print(resStan, pars = "beta", probs = c(0.025, 0.5, 0.975))
+
+pairs(resStan, pars = "beta")
+plot(post_beta)
+
 ```
 

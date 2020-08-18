@@ -316,5 +316,15 @@ basketball = basketball %>%
 basketball$Composite.Rating = scale(basketball$Composite.Rating)
 #nrow(basketball)
 
+basketball.py = basketball %>% ungroup() %>%
+  dplyr::select(`WS/48`,
+                Composite.Rating,
+                Age,
+                Is.Big,
+                Is.Guard)
+
+# write.csv(basketball.py, '~/Python Projects/RSCI TensorFlow/Data/RSCI Clean.csv',
+#           row.names = F)
+
 
 
