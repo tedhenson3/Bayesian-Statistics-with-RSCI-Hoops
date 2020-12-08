@@ -11,7 +11,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,
+knitr::opts_chunk$set(echo = F,
+                      eval = T,
                       message = FALSE,
                       warning = FALSE)
 ```
@@ -22,6 +23,8 @@ knitr::opts_chunk$set(echo = TRUE,
 # Data
   The input data is aggregate scouting information from the Recruiting Services Consensus Index (RSCI). The data includes rankings from a variety of recruiting services for the top 100 high school prospects going back to 1998. Rivals is the only service that has been constant through the years. ESPN has been in the index since 2013, but their initial creator, Dave Telep, has been ranking prospects since 1998 so they are treated synonymous for this project. Other services that are still active include 247Sports and Hot100Hoops. All other services in the index no longer rank prospects. Regressions run with the composite ratings and the other active services produced posterior predictor distributions that were collinear. As a result only the composite rating was included in the final regression. It was also standardized to more easily set the priors and interpret the posterior distribution. Also included in the the predictor matrix was a player's age and position.
   The response data is the advanced metrics table from basketball reference. This table includes statistics such as Value Over Replacement Player (VORP), Win Shares (WS), and many others. This analysis will attempt to first predict Win Shares Per 48 Minutes (WS/48) for a player's rookie season. Rookie seasons were chosen to simplify the analysis. WS/48 was chosen as opposed to VORP as VORP penalized rookies who played a lot of minutes on bad teams. In order to control for outliers who played very few minutes, only rookies who played over 100 minutes were considered. If a player did not play over 100 minutes they either were injured, were not given a chance, or were ineffective when they played. In practice one would not exclude them and either include them, regress their stats towards the mean or minimum, or something else, but for simplicity they are excluded here. The definition of the model and priors will be shown below.
+
+
 # Analysis
 ## Definition of Model and Priors
 ```{r}
@@ -29,17 +32,20 @@ source('~/Bayesian Statistics with RSCI Hoops/Code/RSCI to NBA Merger.R')
 source('~/Bayesian Statistics with RSCI Hoops/Code/Quadratic Approximation.R')
 fit
 ```
-
+\newpage
 ## Plots of Simulation of Priors
 ```{r}
-par(mfrow=c(2,2))
+#par(mfrow=c(2,2))
 plot(prior.sims$a, prior.sims$sigma)
 ```
 \newpage
+
 ## Plots of Simulated Samples from Posterior
+
 ```{r}
 pairs(post.sims)
 ```
+\newpage
 
 ## Summary of Model Posterior
 ```{r}
@@ -60,9 +66,9 @@ for(i in 1:nrow(basketball)) lines(rep(basketball$y[i],2),
                                        col=rangi2)
 ```
 
-# Markov Chain Monte Carlo
+## Markov Chain Monte Carlo
 
-The same model definitions above were applied, but Markov Chain Monte Carlo methods were applied to estimate the posterior distrubtion for the parameters. Below beta[1] is the mean of the response, beta[2] for Big, beta[3] for Guard, beta[4] for composite rating, and beta[5] for age.
+The same model definitions above were applied, but Markov Chain Monte Carlo methods were applied to estimate the posterior distribution for the parameters. The process was run with 4000 iterations per chain including warmup iterations. The model was initially ran with 4 chains to check the posterior estimations across the chains, but since they all converged to the same values one chain was used for the final model. Below beta[1] is the mean of the response, beta[2] for Big, beta[3] for Guard, beta[4] for composite rating, and beta[5] for age.
 ```{r}
 load(file = "~/Bayesian Statistics with RSCI Hoops/Env/MCMC_env.RData")
 library(rstan)
