@@ -1,3 +1,3 @@
-# Bayesian Statistics with RSCI Hoops
-This project aims to apply Bayesian statistics in the rethinking package by Richard McElreath from his book Statistical Rethinking. This analysis will focus on Bayesian regression, quadratic approximation, causal inference, and more as I continue to develop and apply my understanding of Bayesian statistics.
+# Projecting High School to NBA
+This project aims to predict NBA prospect outcomes from high school scouting ratings using Bayesian regression, quadratic approximation, monte carlo methods, and TensorFlow.
   
